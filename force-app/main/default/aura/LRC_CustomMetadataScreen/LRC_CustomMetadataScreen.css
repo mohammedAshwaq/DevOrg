@@ -1,0 +1,14 @@
+.THIS {
+}
+
+.THIS.custom-style{
+    padding : 20px;
+}
+
+.THIS .custom-file-style{
+    float : right;
+}
+
+.THIS .custom-margin{
+    margin-top: 30px;
+}
