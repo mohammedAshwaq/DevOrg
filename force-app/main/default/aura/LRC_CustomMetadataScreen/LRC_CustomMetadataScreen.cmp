@@ -1,0 +1,61 @@
+<aura:component controller="LRC_MetadataTypeController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute name="selectedValue" type="String"/>
+    <aura:attribute name="options" type="List"/>
+    
+     <!-- Data Table attributes -->
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="errors" type="Object" default="[]"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+    <aura:attribute name="showDatatable" type="Boolean" default="false"/>    
+   
+    <!-- filter input -->
+    <aura:attribute name="filteredData" type="List" />
+    <aura:attribute name="filter" type="String" />
+    <aura:attribute name="isUploadButtonDisabled" type="Boolean" default="true"/>
+    
+    <!-- File Upload Attributes -->
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+
+    <!-- handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit }"/>
+    
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <lightning:card  title="{!$Label.c.LRC_App_Title}" class="custom-style">
+        <div class="slds-align--absolute-center">
+            <lightning:spinner aura:id="spinner" variant="brand" size="medium" class="slds-hide"/>
+        </div>
+        
+		<lightning:select name="metadataSelected" label="{!$Label.c.LRC_Select_Metadata}" value="{!v.selectedValue}" onchange="{!c.onChangeSelect}">
+            <aura:iteration items="{!v.options}" var="option">
+              <option value="{!option.value}">{!option.label}</option>
+            </aura:iteration>
+		</lightning:select>
+
+        <aura:if isTrue="{!v.showDatatable}">
+
+            <!-- File upload input field -->
+            <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" label="{!$Label.c.LRC_Add_Metadata_using_CSV}" multiple="false" accept=".csv"/>
+   			<div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+            <lightning:button variant="brand" label="{!$Label.c.LRC_Upload_Button_Label }" onclick="{! c.readFile }" disabled="{!v.isUploadButtonDisabled}"/>
+            
+            <!-- Search filter input field -->
+            <lightning:input type="text" class="custom-margin" onchange="{!c.filter}" value="{!v.filter}" label="Search Filter" />
+            
+            <!-- the container element determine the height of the datatable -->
+            <div style="height: auto; margin-top: 25px;">
+                <lightning:datatable
+                                     columns="{!v.columns}"
+                                     data="{!v.filteredData}"
+                                     keyField="id"
+                                     errors="{!v.errors}"
+                                     draftValues="{!v.draftValues}"
+                                     onsave="{!c.handleSaveEdition }"
+                                     />
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>
