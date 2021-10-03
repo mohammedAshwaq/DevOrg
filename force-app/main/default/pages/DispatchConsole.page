@@ -1,0 +1,246 @@
+<apex:page showHeader="false" sidebar="false">
+
+<apex:includeScript value="{!URLFOR($Resource.dc, 'dc/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.dc, 'dc/moment.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.dc, 'dc/jquery-ui.custom.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.dc, 'dc/fullcalendar.min.js')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.dc, 'dc/fullcalendar.min.css')}"/>
+<style>
+
+    body {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 14px;
+        font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    }
+        
+    #wrap {
+        width: 1100px;
+        margin: 0 auto;
+    }
+        
+    #external-events {
+        float: left;
+        width: 150px;
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        background: #eee;
+        text-align: left;
+    }
+        
+    #external-events h4 {
+        font-size: 16px;
+        margin-top: 0;
+        padding-top: 1em;
+    }
+        
+    #external-events .fc-event {
+        margin: 10px 0;
+        cursor: pointer;
+    }
+        
+    #external-events p {
+        margin: 1.5em 0;
+        font-size: 11px;
+        color: #666;
+    }
+        
+    #external-events p input {
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    #calendar {
+        float: right;
+        width: 900px;
+    }
+
+</style>
+<script>
+$(document).ready(function(){
+function populateSelect(target, min, max){
+    if (!target){
+        return false;
+    }
+    else {
+        var min = min || 0,
+            max = max || min + 100;
+        
+        select = document.getElementById(target);
+        
+        for (var i = min; i<=max; i++){
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            select.appendChild(opt);
+        }
+    }
+}
+
+populateSelect('selectElementId',12,100);
+populateSelect('anotherSelect');
+populateSelect('moreSelects', 50);
+
+
+
+
+        /* initialize the external events
+        -----------------------------------------------------------------*/
+
+        $('#external-events .fc-event').each(function() {
+
+           
+            $(this).data('event', {
+                title: $.trim($(this).text()), 
+                stick: true 
+            });
+
+            // make the event draggable using jQuery UI
+            $(this).draggable({
+                zIndex: 999,
+                revert: true,      
+                revertDuration: 0  
+            });
+
+        });
+
+
+        /* initialize the calendar
+        -----------------------------------------------------------------*/
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            resources:[{Name:'test1'},{Name:'Test2'}],
+            
+                allDaySlot: false,
+                allDayText: "all-day",
+                slotDuration: "01:00:00",
+                minTime: "10:00:00",
+                maxTime: "21:00:00",
+                slotEventOverlap: true,
+                titleRangeSeparator: " ** ",
+                monthYearFormat: "MMMM YYYY",
+                defaultTimedEventDuration: "02:00:00",
+                defaultAllDayEventDuration: {
+                    days: 1
+                },
+                 forceEventDuration: false,
+                nextDayThreshold: "09:00:00",
+                defaultView: "agendaDay",
+                aspectRatio: 1.35,
+                weekends: true,
+        weekNumbers: false,
+        weekNumberTitle: "W",
+        weekNumberCalculation: "local",
+        scrollTime: "06:00:00",
+        lazyFetching: !0,
+        startParam: "start",
+        endParam: "end",
+        timezoneParam: "timezone",
+        timezone: true,
+        isRTL: true,
+        editable: true,
+    resources: [
+        {
+            id: 1,
+            name: 'Joe Bloggs',
+            color: 'red'
+        },
+        {
+            id: 2,
+            name: 'Alan Black',
+            color: 'blue'
+        },
+        {
+            id: 3,
+            name: 'Robert White',
+            color: 'pink'
+        }
+    
+    ],
+    
+        buttonText: {
+            prev: "prev",
+            next: "next",
+            prevYear: "prev year",
+            nextYear: "next year",
+            year: "year",
+            today: "today",
+            month: "month",
+            week: "week",
+            day: "day"
+        },
+        buttonIcons: {
+            prev: "left-single-arrow",
+            next: "right-single-arrow",
+            prevYear: "left-double-arrow",
+            nextYear: "right-double-arrow"
+        },
+        theme: false,
+        themeButtonIcons: {
+            prev: "circle-triangle-w",
+            next: "circle-triangle-e",
+            prevYear: "seek-prev",
+            nextYear: "seek-next"
+        },
+        dragOpacity: .75,
+        dragRevertDuration: 500,
+        dragScroll: !0,
+        unselectAuto: !0,
+        dropAccept: "*",
+        eventLimit: !1,
+        eventLimitText: "more",
+        eventLimitClick: "popover",
+        dayPopoverFormat: "LL",
+        handleWindowResize: true,
+        windowResizeDelay: 200,
+          
+            editable: true,
+            droppable: true,
+            drop: function() {
+                if ($('#drop-remove').is(':checked')) {
+                    $(this).remove();
+                }
+            }
+        });
+
+
+
+});
+
+</script>
+
+
+
+
+<body>
+
+<select id="selectElementId"></select>
+<select id="anotherSelect"></select>
+<select id="moreSelects"></select>
+<div id='wrap'>
+
+        <div id='external-events'>
+            <h4>Draggable Events</h4>
+            <div class='fc-event'>My Event 1</div>
+            <div class='fc-event'>My Event 2</div>
+            <div class='fc-event'>My Event 3</div>
+            <div class='fc-event'>My Event 4</div>
+            <div class='fc-event'>My Event 5</div>
+            <p>
+                <input type='checkbox' id='drop-remove' />
+                <label for='drop-remove'>remove after drop</label>
+            </p>
+        </div>
+
+        <div id='calendar'></div>
+
+        <div style='clear:both'></div>
+
+    </div>
+</body>
+</apex:page>

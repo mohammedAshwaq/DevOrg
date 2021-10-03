@@ -1,0 +1,95 @@
+<apex:page standardController="Book_Library__c" extensions="librarytast1">
+<head>
+    <style>
+        .mytable {
+            border:0px solid #ccc;
+            border-collapse:collapse;
+            margin:10px 0px 10px 0px;
+            width:100%;
+        }
+        .mytable th {
+            border:1px solid #ccc;
+            background-color:#555555;
+            border-collapse:collapse;
+            padding:5px;
+            color:#fff;
+            text-align:center;
+        }
+        .mytable td {
+            border:1px solid #ccc;
+            border-collapse:collapse;
+            padding:5px;
+        }
+    </style>
+</head>
+
+<body>
+  <apex:form >
+  <apex:pageBlock >
+  <apex:pageMessages ></apex:pageMessages>
+  
+     <apex:pageBlockSection title="Search Book">
+          <apex:inputText value="{!str}" label="Search Book"/> 
+          <apex:commandButton action="{!search}" value="Search" >
+          <apex:actionSupport event="onclick" rendered=""/>          
+          </apex:commandButton>           
+      </apex:pageBlockSection>
+      
+     <!--  <apex:pageBlockTable value="{!bk}" var="b">
+          <apex:column value="{!b.name}"/>
+          <apex:column value="{!b.Discount__c}"/>
+          <apex:column value="{!b.Price__c}"/>
+          <apex:column value="{!b.Description__c}"/>  
+      </apex:pageblockTable>  -->
+      
+      <table cellpadding="0" cellspacing="0" border="0" class="mytable">
+          <tr>
+              <th>Book Name</th>
+              <th>Discount</th>
+              <th>Price</th>
+              <th>Description</th>
+          </tr>
+          <apex:repeat value="{!bk}" var="b" >
+              <tr>
+                  <td> <apex:outputField value="{!b.name}"/></td>
+                  <td><apex:outputField value="{!b.Discount__c}"/></td>
+                  <td><apex:outputField value="{!b.Price__c}"/></td>
+                  <td><apex:outputField value="{!b.Description__c}"/></td>
+              </tr>
+          </apex:repeat>
+     </table>
+          
+      
+  </apex:pageBlock>
+  
+      
+  <apex:pageBlock id="this"  >
+  
+      <apex:pageBlockButtons >      
+               <apex:commandButton action="{!cancel}" value="Cancel"/> 
+               <apex:commandButton action="{!newrecord}" value="new"/> 
+               <apex:commandButton action="{!save}"  value="save" rendered="{!flag}"/>       
+       </apex:pageBlockButtons>
+       
+       <apex:pageBlockSection title="Create New Book" rendered="{!flag}" >
+        <apex:inputField value="{!Book_Library__c.Name}" required="true"/>
+            <apex:inputField value="{!Book_Library__c.Description__c}"/>
+            <apex:inputField value="{!Book_Library__c.Discount__c}"/>
+            <apex:inputField value="{!Book_Library__c.Price__c}"/>
+            <apex:inputField value="{!Book_Library__c.Category__c}"/>
+           
+        </apex:pageBlockSection>  
+            
+  </apex:pageBlock>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </apex:form>
+  </body>
+</apex:page>

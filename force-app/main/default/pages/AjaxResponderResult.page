@@ -1,0 +1,37 @@
+<apex:page >
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js" />
+    <apex:stylesheet value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css"/>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" />
+
+    <apex:includeScript value="{!URLFOR($Resource.DataTables, 'DataTables/media/js/jquery.dataTables.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.DataTables, 'DataTables/media/css/jquery.dataTables.css')}" />  
+
+    <script type="text/javascript">
+
+        var j$ = jQuery.noConflict();
+        j$(document).ready( function () 
+        {           
+            j$('#tblid').dataTable(
+            {
+                "bProcessing"   : true,
+                "bServerSide"   : true,
+                "sAjaxSource"   : '{!$Page.AjaxResponder}?core.apexpages.devmode.url=1',
+                "pagingType": "full_numbers",
+                "scrollY": 220
+            } );
+        } );
+
+    </script>
+
+    <apex:form >
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="tblid">
+            <thead>
+                <th>Name</th>
+                <th>Id</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </apex:form>
+</apex:page>

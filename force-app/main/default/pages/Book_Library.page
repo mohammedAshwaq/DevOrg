@@ -1,0 +1,13 @@
+<apex:page controller="bookLibrary">
+    <apex:form title="Book Library">
+        <apex:pageBlock title="Book Library">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="New" action="bookLibrary"/>
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection >
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
