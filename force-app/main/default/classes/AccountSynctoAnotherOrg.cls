@@ -3,7 +3,7 @@ global class AccountSynctoAnotherOrg{
     @httpGet
     global static account getAccoutDetails(){
         //test 2nd commit
-        //test 3rd comment
+        //test 3rd comment 
         restrequest  restRe = restContext.request;
         String accNumber = restRe.requestURI.Substring(restRe.requestURI.lastIndexOf('/')+1);
         List<Account> lstAcc= [select id, name from account where AccountNumber =:accNumber];
